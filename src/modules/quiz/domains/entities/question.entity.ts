@@ -1,20 +1,29 @@
-import { Column, Entity, OneToMany } from "typeorm";
-import { AnswerEntity } from "./answer.entity";
-import { UserAnswerEntity } from "./user-answer.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+
 import { AbstractEntity } from '../../../../common/abstract.entity';
-// import { QuestionDto } from "../dtos/question.dto";
-// import { UseDto } from '../../../../decorators';
-@Entity({name: 'questions'})
-// @UseDto(QuestionDto)
+import { OptionEntity } from './option.entity';
+import { ProStrengthEntity } from './pro-strength.entity';
+
+@Entity({ name: 'questions' })
 export class QuestionEntity extends AbstractEntity {
+  @Column({ nullable: false, type: 'varchar' })
+  question!: string | null;
 
-    @Column({nullable: false})
-    questionContent!: string;
+  // để phân biệt professional vs navigator
+  @Column({ nullable: false, length: 50, type: 'varchar' })
+  question_type!: string | null;
 
-    @OneToMany(() => AnswerEntity, answer => answer.question)
-    answers!: AnswerEntity[];
+  @OneToMany(() => OptionEntity, (option) => option.question, {
+    cascade: true,
+    eager: true,
+  })
+  options!: OptionEntity[] | null;
 
-    
-    @OneToMany(() => UserAnswerEntity, userAnswer => userAnswer.question)
-    userAnswers!: UserAnswerEntity[];
+  @OneToOne(() => ProStrengthEntity, (pro_strength) => pro_strength.question, {
+    nullable: false,
+    cascade: true,
+    eager: true,
+  })
+  @JoinColumn({ name: 'pro_strength_id' })
+  pro_strength!: ProStrengthEntity | null;
 }

@@ -1,28 +1,22 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { AnswerEntity } from "../domains/entities/answer.entity";
+import { OptionEntity } from "../domains/entities/option.entity";
 
 export interface IAnswerRepository {
-  findById(id: string): Promise<AnswerEntity | null>;
+  findById(id: string): Promise<OptionEntity | null>;
 }
 
 
 @Injectable()
 export class AnswerRepository implements IAnswerRepository {
     constructor(
-    @InjectRepository(AnswerEntity)
-    private answerRepository: Repository<AnswerEntity>,
+    @InjectRepository(OptionEntity)
+    private answerRepository: Repository<OptionEntity>,
   ) { }
  
 
-    async findById(id: string): Promise<AnswerEntity | null> {
-        return await this.answerRepository.findOne({
-            where: {
-                id,
-            },
-        });
-    }
-
-    
+    async findById(id: string): Promise<OptionEntity | null> {
+        return await this.answerRepository.findOneById(id);
+    }    
 }

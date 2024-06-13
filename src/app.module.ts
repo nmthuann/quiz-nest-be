@@ -16,18 +16,16 @@ import {
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 
-import { AuthModule } from './modules/auth/auth.module';
 import { HealthCheckerModule } from './modules/health-checker/health-checker.module';
-import { PostModule } from './modules/post/post.module';
-import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
+import { QuizModule } from './modules/quiz/quiz.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    AuthModule,
+    QuizModule,
     UserModule,
-    PostModule,
     ClsModule.forRoot({
       global: true,
       middleware: {
@@ -77,6 +75,7 @@ import { SharedModule } from './shared/shared.module';
       inject: [ApiConfigService],
     }),
     HealthCheckerModule,
+
   ],
   providers: [],
 })

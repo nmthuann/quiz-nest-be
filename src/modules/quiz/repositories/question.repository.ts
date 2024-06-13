@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { QuestionEntity } from "../domains/entities/question.entity";
+import { QuestionEntity } from "../../quiz/domains/entities/question.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
@@ -18,11 +18,7 @@ export class QuestionRepository implements IQuestionRepository {
  
 
     async findById(id: string): Promise<QuestionEntity | null> {
-        return await this.questionRepository.findOne({
-            where: {
-                id,
-            },
-        });
+        return await this.questionRepository.findOneById(id);
     }
 
     async findQuestionsAndAnswers(): Promise<QuestionEntity[] | null> {
